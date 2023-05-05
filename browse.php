@@ -1,3 +1,4 @@
+<!doctype html>
 <html lang="en" data-bs-theme="auto">
   <head><script src="../assets/js/color-modes.js"></script>
 
@@ -7,8 +8,7 @@
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.111.3">
     <title>Robot Arm Books</title>
- <link rel="icon" type="image/x-icon" href="robot.jpeg">
-    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/carousel/">
+    <link rel="icon" type="image/x-icon" href="robot.jpeg">
 
     
 
@@ -89,72 +89,44 @@
         z-index: 1500;
       }
 	  
-	  .fcf-body {
-	      font-family: -apple-system, Arial, sans-serif;
-	      font-size: 1rem;
-	      font-weight: 400;
-	      color: #0000ff;
-	      text-align: left;
-	  }
-	  
-	  input[type=text], select, textarea {
+	.column {
+		background: grey;
+	}
+	
+	table {
+	    border-collapse: collapse;
 	    width: 100%;
-	    padding: 12px;
-	    border: 1px solid #ccc;
-	    border-radius: 4px;
-	    box-sizing: border-box;
-	    margin-top: 6px;
-	    margin-bottom: 16px;
-	    resize: vertical;
-	  }
+	    margin: 0 auto;
+	}
 
-	  input[type=submit] {
-	    background-color: #5DADE2;
-	    color: white;
-	    padding: 12px 20px;
-	    border: none;
-	    border-radius: 4px;
-	  }
+	th, td {
+	    padding: 8px;
+	    text-align: left;
+	    border-bottom: 1px solid #ddd;
+	}
+
+	/* Set the width for the first column to take up 40% of the table */
+	td:nth-child(1), th:nth-child(1) {
+	    width: 40%;
+	}
+
+	/* Set the width for the second column to take up 30% of the table */
+	td:nth-child(2), th:nth-child(2) {
+	    width: 30%;
+	}
+
+	/* Set the width for the third column to take up 30% of the table */
+	td:nth-child(3), th:nth-child(3) {
+	    width: 30%;
+	}
+	  
     </style>
 
     
-    <!-- Custom styles for this template --><br>
-    <link href="carousel.css" rel="stylesheet"><title>Contact Us</title>
+    <!-- Custom styles for this template -->
+    <link href="carousel.css" rel="stylesheet">
   </head>
   <body>
-<body>
-    <h3>Contact us</h3>
-    <form id="fcf-form-id" class="fcf-form-class" method="post" action="contact-form-process.php">
-            <label for="Name" class="fcf-label">Your name</label>
-            <div class="fcf-input-group">
-                <input type="text" id="Name" name="Name" class="fcf-form-control" required>
-            </div>
-        <div class="fcf-form-group">
-            <label for="Email" class="fcf-label">Your email address</label>
-            <div class="fcf-input-group">
-                <input type="email" id="Email" name="Email" class="fcf-form-control" required>
-            </div>
-			
-		    <label for="contact reason">Contact Reason</label>
-		       <select id="contact reason" name="contact reason">
-		         <option value="sales">Sales</option>
-		         <option value="help">Help</option>
-		         <option value="billing">Billing</option>
-		       </select>
-			   
-        <div class="fcf-form-group">
-            <label for="Message" class="fcf-label">Your message</label>
-            <div class="fcf-input-group">
-                <textarea id="Message" name="Message" class="fcf-form-control" rows="6" maxlength="3000" required></textarea>
-            </div>
-			
-			<input type="checkbox" id="newsletter" name="newsletter" value="newslettersignup">
-			  <label for="newsletter">Join our newsletter</label><br>
-        </div>
-        <div class="fcf-form-group">
-            <button type="submit" id="fcf-button" class="fcf-btn fcf-btn-primary fcf-btn-lg fcf-btn-block">Send</button>
-        </div>
-</body>
     <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
       <symbol id="check2" viewBox="0 0 16 16">
         <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
@@ -217,33 +189,61 @@
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav me-auto mb-2 mb-md-0">
           <li class="nav-item">
-            <a class="nav-link"  href="index.html">Home</a>
+            <a class="nav-link" href="index.html">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="browse.php">Browse Books</a>
+            <a class="nav-link active" aria-current="page" href="browse.html">Browse Books</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="contactus.html">Contact Us</a>
+            <a class="nav-link" href="contactus.html">Contact Us</a>
           </li>
         </ul>
-        
+        <form action="search.php" role="search">
+          <input type="text" type="search" placeholder="Search Books" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">Go!</button>
+        </form>
       </div>
     </div>
   </nav>
 </header>
+<body>
+			<main>
+	<?php
+	    require 'dbcon.php';
 
-<main>
+	    $sql = "SELECT * FROM tblbooks";
+	    $result = $conn->query($sql);
 
-  <!-- FOOTER -->
-  <footer class="container">
-    <p class="float-end"><a href="#">Back to top</a></p>
-    <p>&copy; 2023 Robot Arm Web Design, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
-  </footer>
-</main>
+	    if ($result->num_rows > 0) {
+	        echo "<table>";
+	        $i = 0;
+	        while($row = $result->fetch_assoc()) {
+	            if ($i % 3 == 0) {
+	                echo "<tr>";
+	            }
+	            echo "<td><strong>" . $row["title"] . "</strong><br>" . $row["author"] . 
+	                 "<br>" . $row["price"] ."</td>";
+	            if ($i % 3 == 2) {
+	                echo "</tr>";
+	            }
+	            $i++;
+	        }
+	        if ($i % 3 != 0) {
+	            echo "</tr>";
+	        }
+	        echo "</table>";
+	    } else {
+	        echo "0 results";
+	    }
+
+	    $conn->close();
+	?>
+			</main>
 
 
-    <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+			    <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
 
       
-  </body>
-</html>
+			  </body>
+			</html>
+			
