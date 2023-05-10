@@ -119,6 +119,12 @@
 	td:nth-child(3), th:nth-child(3) {
 	    width: 30%;
 	}
+	
+	body {
+	  margin: 0 auto;
+	  max-width: 1200px;
+	  padding: 0 20px;
+	}
 	  
     </style>
 
@@ -198,8 +204,8 @@
             <a class="nav-link" href="contactus.html">Contact Us</a>
           </li>
         </ul>
-        <form action="search.php" role="search">
-          <input type="text" type="search" placeholder="Search Books" aria-label="Search">
+        <form action="search.php" method="GET">
+          <input type="text" name="search" placeholder="Search Books" aria-label="Search">
           <button class="btn btn-outline-success" type="submit">Go!</button>
         </form>
       </div>
@@ -208,37 +214,35 @@
 </header>
 <body>
 			<main>
-	<?php
-	    require 'dbcon.php';
+				<?php
+				    require 'dbcon.php';
 
-	    $sql = "SELECT * FROM tblbooks";
-	    $result = $conn->query($sql);
+				    $sql = "SELECT * FROM tblbooks";
+				    $result = $conn->query($sql);
 
-	    if ($result->num_rows > 0) {
-	        echo "<table>";
-	        $i = 0;
-	        while($row = $result->fetch_assoc()) {
-	            if ($i % 3 == 0) {
-	                echo "<tr>";
-	            }
-	            echo "<td><strong>" . $row["title"] . "</strong><br>" . $row["author"] . 
-	                 "<br>" . $row["price"] ."</td>";
-	            if ($i % 3 == 2) {
-	                echo "</tr>";
-	            }
-	            $i++;
-	        }
-	        if ($i % 3 != 0) {
-	            echo "</tr>";
-	        }
-	        echo "</table>";
-	    } else {
-	        echo "0 results";
-	    }
+				    if ($result->num_rows > 0) {
+				        echo "<table><tr>";
+				        $i = 0;
+				        while($row = $result->fetch_assoc()) {
+				            if ($i % 4 == 0 && $i != 0) {
+				                echo "</tr><tr>";
+				            }
+						    echo "<td><img src='" . $row["image"] . "' width='150'><br><strong>" . $row["title"] . "</strong><br>" . $row["author"] . "<br>" . $row["price"] ."</td>";
+				            $i++;
+				        }
+				        if ($i % 4 != 0) {
+				            echo str_repeat("<td></td>", 4 - ($i % 4));
+				            echo "</tr>";
+				        }
+				        echo "</table>";
+				    } else {
+				        echo "0 results";
+				    }
 
-	    $conn->close();
-	?>
+				    $conn->close();
+				?>
 			</main>
+			
 
 
 			    <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>

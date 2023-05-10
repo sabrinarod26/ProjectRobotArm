@@ -151,24 +151,24 @@
 <header data-bs-theme="dark">
   <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">🦾 Robot Arm Books 📖 </a>
+      <a class="navbar-brand" href="index.html">🦾 Robot Arm Books 📖 </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav me-auto mb-2 mb-md-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
+            <a class="nav-link active" aria-current="page" href="index.html">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Browse Books</a>
+            <a class="nav-link" href="browse.php">Browse Books</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Contact Us</a>
+            <a class="nav-link" href="contactus.html">Contact Us</a>
           </li>
         </ul>
-        <form action="search.php" role="search">
-          <input type="text" type="search" placeholder="Search Books" aria-label="Search">
+        <form action="search.php" role="search" method="GET">
+          <input type="text" name="search" placeholder="Search Books" aria-label="Search">
           <button class="btn btn-outline-success" type="submit">Go!</button>
         </form>
       </div>
@@ -185,33 +185,41 @@
 require 'dbcon.php';
 //echo "Connected successfully";
 
-$id = "";
-$id = $_GET['search'];
+// Get search term from form input
+$search_term = isset($_GET["search"]) ? $_GET["search"] : '';
 
-//$sql = 
-"SELECT * from tblbooks 
-Where title like %".$id."% or author like ".$id." or genre like ".$id."";
-//echo $sql;
-$result = $conn->query($sql);
 
-    while($row = $result->fetch_assoc()) 
-	{
+// Prepare SQL statement to search for books by title or author
+if (!empty($search_term)) { // check if search  is not empty
+	$sql = "SELECT * FROM tblbooks WHERE title LIKE '%".$search_term."%' OR author LIKE '%".$search_term."%'";
 	
-	echo 	"
-			<section>	
-				<article>
-					<BR>
-					<h2> ".$row["title"]." </h2>
-					<p> ".substr($row["author"],0,300)." </p>
-					<p><br><br><a href=details.php?id=".$row["bookid"].">Details</a><br><br></p>
-				</article>
-			</section>";
-		
-	}
-	
+    // Execute SQL query
+    $result = $conn->query($sql);
+
+    // Check for SQL query errors
+    if (!$result) {
+        die("Error: " . $sql . "<br>" . $conn->error);
+    }
+
+    // Display search results
+    if ($result->num_rows > 0) {
+        while($row = $result->fetch_assoc()) {
+           echo "<br><td><img src='" . $row["image"] . "' width='150'><br><strong>" . $row["title"] . "</strong><br>" . $row["author"] 
+              .  "<br>" . $row["price"] ."</td>";
+            echo "<hr>"; // add a horizontal line to separate each book
+        }
+    } else {
+        echo "No results found.";
+    }
+}
+
+// Close database connection
 $conn->close();
+?>
 
-	?>
+
+
+
   <!-- FOOTER -->
   <footer class="container">
     <p class="float-end"><a href="#">Back to top</a></p>
