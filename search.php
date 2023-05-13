@@ -191,7 +191,7 @@ $search_term = isset($_GET["search"]) ? $_GET["search"] : '';
 
 // Prepare SQL statement to search for books by title or author
 if (!empty($search_term)) { // check if search  is not empty
-	$sql = "SELECT * FROM tblbooks WHERE title LIKE '%".$search_term."%' OR author LIKE '%".$search_term."%'";
+	$sql = "SELECT * FROM tblbooks WHERE title LIKE '%".$search_term."%' OR author LIKE '%".$search_term. OR genre LIKE '%".$search_term."%'";
 	
     // Execute SQL query
     $result = $conn->query($sql);
