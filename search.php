@@ -89,6 +89,12 @@
       .bd-mode-toggle {
         z-index: 1500;
       }
+	  
+  	body {
+  	  margin: 0 auto;
+  	  max-width: 1200px;
+  	  padding: 0 20px;
+  	}
     </style>
 
     
@@ -191,29 +197,29 @@ $search_term = isset($_GET["search"]) ? $_GET["search"] : '';
 
 // Prepare SQL statement to search for books by title or author
 if (!empty($search_term)) { // check if search  is not empty
-	$sql = "SELECT * FROM tblbooks WHERE title LIKE '%".$search_term."%' OR author LIKE '%".$search_term. "%' OR genre LIKE '%".$search_term."%'";
+	$sql = "SELECT * FROM tblbooks WHERE title LIKE '%".$search_term."%' OR author LIKE '%".$search_term."%' OR genre LIKE '%".$search_term."%'";
 	
     // Execute SQL query
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
-      echo "<table><tr>";
-      $i = 0;
-      while($row = $result->fetch_assoc()) {
-          if ($i % 4 == 0 && $i != 0) {
-              echo "</tr><tr>";
-          }
-      echo "<td><img src='" . $row["image"] . "' width='150'><br><strong>" . $row["title"] . "</strong><br>" . $row["author"] . "<br>" . $row["price"] ."</td>";
-          $i++;
-      }
-      if ($i % 4 != 0) {
-          echo str_repeat("<td></td>", 4 - ($i % 4));
-          echo "</tr>";
-      }
-      echo "</table>";
-  } else {
-      echo "0 results";
-  }
+        echo "<table><tr>";
+        $i = 0;
+        while($row = $result->fetch_assoc()) {
+            if ($i % 4 == 0 && $i != 0) {
+                echo "</tr><tr>";
+            }
+		    echo "<td><img src='" . $row["image"] . "' width='150'><br><strong>" . $row["title"] . "</strong><br>" . $row["author"] . "<br>" . $row["price"] ."</td>";
+            $i++;
+        }
+        if ($i % 4 != 0) {
+            echo str_repeat("<td></td>", 4 - ($i % 4));
+            echo "</tr>";
+        }
+        echo "</table>";
+    } else {
+        echo "0 results";
+    }
 
 }
 
