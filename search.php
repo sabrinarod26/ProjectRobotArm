@@ -196,21 +196,25 @@ if (!empty($search_term)) { // check if search  is not empty
     // Execute SQL query
     $result = $conn->query($sql);
 
-    // Check for SQL query errors
-    if (!$result) {
-        die("Error: " . $sql . "<br>" . $conn->error);
-    }
-
-    // Display search results
     if ($result->num_rows > 0) {
-        while($row = $result->fetch_assoc()) {
-           echo "<br><td><img src='" . $row["image"] . "' width='150'><br><strong>" . $row["title"] . "</strong><br>" . $row["author"] 
-              .  "<br>" . $row["price"] ."</td>";
-            echo "<hr>"; // add a horizontal line to separate each book
-        }
-    } else {
-        echo "No results found.";
-    }
+      echo "<table><tr>";
+      $i = 0;
+      while($row = $result->fetch_assoc()) {
+          if ($i % 4 == 0 && $i != 0) {
+              echo "</tr><tr>";
+          }
+      echo "<td><img src='" . $row["image"] . "' width='150'><br><strong>" . $row["title"] . "</strong><br>" . $row["author"] . "<br>" . $row["price"] ."</td>";
+          $i++;
+      }
+      if ($i % 4 != 0) {
+          echo str_repeat("<td></td>", 4 - ($i % 4));
+          echo "</tr>";
+      }
+      echo "</table>";
+  } else {
+      echo "0 results";
+  }
+
 }
 
 // Close database connection
