@@ -252,7 +252,6 @@
 				<th>Price</th>
 			</tr>
 			<?php
-session_start();
 require 'dbcon.php';
 
 if(isset($_POST['bookid'])) {
