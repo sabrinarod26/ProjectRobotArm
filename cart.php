@@ -254,54 +254,24 @@
 			<?php
 require 'dbcon.php';
 
-if(isset($_POST['bookid'])) {
+if(isset($_POST['bookid']) && isset($_POST['title']) && isset($_POST['price'])){
     $bookid = $_POST['bookid'];
-    $sql = "SELECT * FROM tblbooks WHERE bookid = $bookid";
-    $result = $conn->query($sql);
-
-    if($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        $itemArray = array(
-            $row['bookid']=>array(
-                'title'=>$row['title'], 
-                'bookid'=>$row['bookid'], 
-                'price'=>$row['price'], 
-                'quantity'=>1)
-        );
-        
-        if(!empty($_SESSION["cart_item"])) {
-            if(in_array($row['bookid'],array_keys($_SESSION["cart_item"]))) {
-                foreach($_SESSION["cart_item"] as $k => $v) {
-                    if($row['bookid'] == $k) {
-                        $_SESSION["cart_item"][$k]["quantity"] += 1;
-                    }
-                }
-            } else {
-                $_SESSION["cart_item"] = array_merge($_SESSION["cart_item"],$itemArray);
-            }
-        } else {
-            $_SESSION["cart_item"] = $itemArray;
-        }
+    $title = $_POST['title'];
+    $price = $_POST['price'];
+    
+    $sql = "INSERT INTO cart (bookid, title, price) VALUES ('$bookid', '$title', '$price')";
+    
+    if ($conn->query($sql) === TRUE) {
+        echo "Item added to cart successfully.";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
     }
 }
 
-if(isset($_POST['remove_item'])) {
-    $bookid = $_POST['remove_item'];
-    if(!empty($_SESSION["cart_item"])) {
-        foreach($_SESSION["cart_item"] as $k => $v) {
-            if($bookid == $k) unset($_SESSION["cart_item"][$k]);
-            if(empty($_SESSION["cart_item"])) unset($_SESSION["cart_item"]);
-        }
-    }
-}
-
-if(isset($_POST['empty_cart'])) {
-    unset($_SESSION["cart_item"]);
-}
-
+$conn->close();
 ?>
 
-		</table>
+
 	</main>
 			
 
