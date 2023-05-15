@@ -26,7 +26,7 @@ if (!$stmt->execute()) die("Execute failed: " . $stmt->error);
 
 // Check if insertion was successful
 if ($stmt->affected_rows > 0) {
-    echo "Thanks for contacting us!";
+    echo "Thanks for contacting us! <a href='index.html'>Go back to home page</a>";
 } else {
     echo "There was an error submitting the form.";
 }
