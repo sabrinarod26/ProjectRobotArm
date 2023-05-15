@@ -6,7 +6,8 @@ require 'dbcon.php';
 $formid = uniqid();
 
 // Prepare SQL statement
-$stmt = $conn->prepare("INSERT INTO tblcontact (formid, name, email, reason, message) VALUES (:formid, :name, :email, :reason, :message)";
+$sql = "INSERT INTO tblcontact (formid, name, email, reason, message) VALUES (:formid, :name, :email, :reason, :message)";
+$stmt = $conn->prepare($sql);
 
 // Bind form data to prepared statement parameters
 $stmt->bindParam(':formid', $formid);
