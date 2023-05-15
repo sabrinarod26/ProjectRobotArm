@@ -306,7 +306,7 @@ if ($result->num_rows > 0) {
         echo "<td>" . $row['quantity'] . "</td>";
         echo "<td><form method='POST' action='cart.php'>
         <input type='hidden' name='cart_id' value='" . $row["id"] . "'>
-        <input type='submit' name='delete_item' value='Delete' action='cart.php'></form></td>";
+        <input type='submit' name='delete_item' value='Delete'></form></td>";
         echo "</tr>";
     }
     echo "</table>";
