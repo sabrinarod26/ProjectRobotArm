@@ -221,8 +221,9 @@
 				<th>Price</th>
 			</tr>
 			<?php
-				session_start();
-				if(isset($_SESSION['cart']) && !empty($_SESSION['cart'])){
+				    require 'dbcon.php';
+                    
+                    if(isset($_SESSION['cart']) && !empty($_SESSION['cart'])){
 					$cart = $_SESSION['cart'];
 					require 'dbcon.php';
 					$total_price = 0;
