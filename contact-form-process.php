@@ -7,13 +7,13 @@ require 'dbcon.php';
 $formid = uniqid();
 
 // Prepare SQL statement
-$stmt = prepare("INSERT INTO tblcontact (formid, name, email, reason, message) VALUES (:formid, :name, :email, :reason, :message)");
+$stmt = $pdo->prepare("INSERT INTO tblcontact (formid, name, email, reason, message) VALUES (:formid, :name, :email, :reason, :message)");
 
 // Bind form data to prepared statement parameters
 $stmt->bindParam(':formid', $formid);
 $stmt->bindParam(':name', $_POST['Name']);
 $stmt->bindParam(':email', $_POST['Email']);
-$stmt->bindParam(':reason', $_POST['contact reason']);
+$stmt->bindParam(':reason', $_POST['contact_reason']);
 $stmt->bindParam(':message', $_POST['Message']);
 
 // Execute the statement
