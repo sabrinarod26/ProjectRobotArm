@@ -17,7 +17,7 @@ $stmt = $conn->prepare("INSERT INTO tblcontact (formid, name, email, reason, mes
 $stmt->bindParam(':formid', $formid);
 $stmt->bindParam(':name', $_POST['Name']);
 $stmt->bindParam(':email', $_POST['Email']);
-$stmt->bindParam(':reason', $_POST['contact reason']);
+$stmt->bindParam(':reason', $_POST['contactreason']);
 $stmt->bindParam(':message', $_POST['Message']);
 
 // Execute the statement
