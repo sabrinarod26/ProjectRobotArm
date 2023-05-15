@@ -250,31 +250,78 @@
         <?php
 require 'dbcon.php';
 
-if(isset($_GET['delete_id'])){
-    $delete_id = $_GET['delete_id'];
-    $sql = "DELETE FROM cart WHERE id = $delete_id";
+// function to delete an item from the cart
+function deleteCartItem($cart_id) {
+    global $conn;
+    $sql = "DELETE FROM cart WHERE id = " . $cart_id;
     if ($conn->query($sql) === TRUE) {
         echo "Item removed from cart successfully";
     } else {
-        echo "Error removing item from cart: " . $conn->error;
+        echo "Error deleting item: " . $conn->error;
     }
 }
 
+// check if a book has been added to the cart
+if (isset($_POST['bookid'])) {
+    $bookid = $_POST['bookid'];
+    $title = $_POST['title'];
+    $price = $_POST['price'];
+
+    // check if the book already exists in the cart
+    $sql = "SELECT * FROM cart WHERE bookid = " . $bookid;
+    $result = $conn->query($sql);
+    if ($result->num_rows > 0) {
+        // update the quantity if the book already exists in the cart
+        $row = $result->fetch_assoc();
+        $quantity = $row['quantity'] + 1;
+        $cart_id = $row['id'];
+        $sql = "UPDATE cart SET quantity = " . $quantity . " WHERE id = " . $cart_id;
+        if ($conn->query($sql) === TRUE) {
+            echo "Book added to cart successfully";
+        } else {
+            echo "Error adding book to cart: " . $conn->error;
+        }
+    } else {
+        // add the book to the cart if it does not already exist
+        $sql = "INSERT INTO cart (bookid, title, price, quantity) VALUES (" . $bookid . ", '" . $title . "', " . $price . ", 1)";
+        if ($conn->query($sql) === TRUE) {
+            echo "Book added to cart successfully";
+        } else {
+            echo "Error adding book to cart: " . $conn->error;
+        }
+    }
+}
+
+// display the contents of the cart
 $sql = "SELECT * FROM cart";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
-    echo "<table><tr><th>Title</th><th>Price</th><th>Action</th></tr>";
+    echo "<table>";
+    echo "<tr><th>Book ID</th><th>Title</th><th>Price</th><th>Quantity</th><th>Action</th></tr>";
     while($row = $result->fetch_assoc()) {
-        echo "<tr><td>" . $row["title"] . "</td><td>$" . $row["price"] . "</td><td><a href='cart.php?delete_id=" . $row["id"] . "'>Remove</a></td></tr>";
+        echo "<tr>";
+        echo "<td>" . $row['bookid'] . "</td>";
+        echo "<td>" . $row['title'] . "</td>";
+        echo "<td>" . $row['price'] . "</td>";
+        echo "<td>" . $row['quantity'] . "</td>";
+        echo "<td><form method='POST' action='cart.php'><input type='hidden' name='cart_id' value='" . $row["id"] . "'><input type='submit' name='delete_item' value='Delete'></form></td>";
+        echo "</tr>";
     }
     echo "</table>";
 } else {
     echo "Your cart is empty";
 }
 
+// delete a book from the cart if the Delete button is clicked
+if (isset($_POST['delete_item'])) {
+    $cart_id = $_POST['cart_id'];
+    deleteCartItem($cart_id);
+}
+
 $conn->close();
 ?>
+
 
 
 	</main>
