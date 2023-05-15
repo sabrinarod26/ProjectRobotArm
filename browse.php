@@ -228,7 +228,16 @@
 				                echo "</tr><tr>";
 				            }
 						    echo "<td><img src='" . $row["image"] . "' width='150'><br><strong>" . $row["title"] . "</strong><br>" . $row["author"] . "<br>$". $row["price"] ."<br><br><form method='POST' action='cart.php'><input type='hidden' name='book_id' value='" . $row["bookid"] . "'><input type='submit' value='Add to Cart'></form></td>";
-				            $i++;
+				        if(isset($_POST["book_id"])){
+                  $book_id = $_POST["book_id"];
+                  $sql2 = "INSERT INTO cart (bookid) VALUES ('$book_id')";
+                  if ($conn->query($sql2) === TRUE) {
+                    echo "Book added to cart successfully";
+                  } else {
+                    echo "Error: " . $sql2 . "<br>" . $conn->error;
+                  }
+                }    
+                $i++;
 				        }
 				        if ($i % 4 != 0) {
 				            echo str_repeat("<td></td>", 4 - ($i % 4));
