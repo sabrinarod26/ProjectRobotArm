@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.111.3">
-    <title>Robot Arm Books</title>
+    <title>Shopping Cart</title>
     <link rel="icon" type="image/x-icon" href="robot.jpeg">
 
     
@@ -94,37 +94,68 @@
 	}
 	
 	table {
-	    border-collapse: collapse;
-	    width: 100%;
-	    margin: 0 auto;
-	}
+			border-collapse: collapse;
+			width: 100%;
+			margin-top: 30px;
+		}
 
-	th, td {
-	    padding: 8px;
-	    text-align: left;
-	    border-bottom: 1px solid #ddd;
-	}
+		th, td {
+			padding: 8px;
+			text-align: center;
+			border-bottom: 1px solid #ddd;
+		}
 
-	/* Set the width for the first column to take up 40% of the table */
-	td:nth-child(1), th:nth-child(1) {
-	    width: 40%;
-	}
+		th {
+			background-color: #f2f2f2;
+			color: #333;
+		}
 
-	/* Set the width for the second column to take up 30% of the table */
-	td:nth-child(2), th:nth-child(2) {
-	    width: 30%;
-	}
+		h1 {
+			text-align: center;
+			margin-top: 50px;
+		}
 
-	/* Set the width for the third column to take up 30% of the table */
-	td:nth-child(3), th:nth-child(3) {
-	    width: 30%;
-	}
-	
-	body {
-	  margin: 0 auto;
-	  max-width: 1200px;
-	  padding: 0 20px;
-	}
+		.cart-buttons {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: space-between;
+			margin-top: 30px;
+		}
+
+		.cart-buttons button {
+			padding: 10px;
+			background-color: #333;
+			color: #fff;
+			border: none;
+			cursor: pointer;
+			transition: all 0.3s ease;
+		}
+
+		.cart-buttons button:hover {
+			background-color: #555;
+		}
+
+		.cart-buttons button:active {
+			transform: translateY(2px);
+		}
+
+		.empty-cart {
+			background-color: #f44336;
+			color: #fff;
+			padding: 5px 10px;
+			border-radius: 5px;
+			cursor: pointer;
+			transition: all 0.3s ease;
+		}
+
+		.empty-cart:hover {
+			background-color: #d32f2f;
+		}
+
+		.empty-cart:active {
+			transform: translateY(2px);
+		}
 	  
     </style>
 
@@ -221,29 +252,56 @@
 				<th>Price</th>
 			</tr>
 			<?php
-				    require 'dbcon.php';
+session_start();
+require 'dbcon.php';
 
-                    if(isset($_SESSION['cart']) && !empty($_SESSION['cart'])){
-					$cart = $_SESSION['cart'];
-					require 'dbcon.php';
-					$total_price = 0;
-					foreach($cart as $book_id => $book){
-						$sql = "SELECT * FROM tblbooks WHERE id=$bookid";
-						$result = $conn->query($sql);
-						if ($result->num_rows > 0) {
-							$row = $result->fetch_assoc();
-							$price = $row['price'];
-							$total_price += $price;
-							echo "<tr><td>" . $row["title"] . "</td><td>" . $price . "</td></tr>";
-						}
-					}
-					echo "<tr><td><strong>Total</strong></td><td><strong>" . $total_price . "</strong></td></tr>";
-					$conn->close();
-				}
-				else{
-					echo "<tr><td colspan='2'>Your cart is empty</td></tr>";
-				}
-			?>
+if(isset($_POST['bookid'])) {
+    $bookid = $_POST['bookid'];
+    $sql = "SELECT * FROM tblbooks WHERE bookid = $bookid";
+    $result = $conn->query($sql);
+
+    if($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $itemArray = array(
+            $row['bookid']=>array(
+                'title'=>$row['title'], 
+                'bookid'=>$row['bookid'], 
+                'price'=>$row['price'], 
+                'quantity'=>1)
+        );
+        
+        if(!empty($_SESSION["cart_item"])) {
+            if(in_array($row['bookid'],array_keys($_SESSION["cart_item"]))) {
+                foreach($_SESSION["cart_item"] as $k => $v) {
+                    if($row['bookid'] == $k) {
+                        $_SESSION["cart_item"][$k]["quantity"] += 1;
+                    }
+                }
+            } else {
+                $_SESSION["cart_item"] = array_merge($_SESSION["cart_item"],$itemArray);
+            }
+        } else {
+            $_SESSION["cart_item"] = $itemArray;
+        }
+    }
+}
+
+if(isset($_POST['remove_item'])) {
+    $bookid = $_POST['remove_item'];
+    if(!empty($_SESSION["cart_item"])) {
+        foreach($_SESSION["cart_item"] as $k => $v) {
+            if($bookid == $k) unset($_SESSION["cart_item"][$k]);
+            if(empty($_SESSION["cart_item"])) unset($_SESSION["cart_item"]);
+        }
+    }
+}
+
+if(isset($_POST['empty_cart'])) {
+    unset($_SESSION["cart_item"]);
+}
+
+?>
+
 		</table>
 	</main>
 			
