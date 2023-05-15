@@ -298,7 +298,7 @@ $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
     echo "<table>";
-    echo "<tr><th>Book ID</th><th>Title</th><th>Price</th><th>Quantity</th><th></th></tr>";
+    echo "<tr><th>Book Title</th><th>Price</th><th>Quantity</th><th>Remove Book</th></tr>";
     while($row = $result->fetch_assoc()) {
         echo "<tr>";
         echo "<td>" . $row['title'] . "</td>";
