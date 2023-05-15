@@ -228,7 +228,7 @@
 				                echo "</tr><tr>";
 				            }
                     echo "<td><img src='" . $row["image"] . "' width='150'><br><strong>" . $row["title"] . "</strong><br>" . $row["author"] . "<br>" . $row["price"] ."</td>";
-                    echo "<td><form method='POST' action='cart.php'><input type='hidden' name='bookid' value='" . $row["bookid"] . "'><input type='hidden' name='title' value='" . $row["title"] . "'><input type='hidden' name='price' value='" . $row["price"] . "'><input type='submit' value='Add to Cart'></form></td>";
+                    echo "<br><td><form method='POST' action='cart.php'><input type='hidden' name='bookid' value='" . $row["bookid"] . "'><input type='hidden' name='title' value='" . $row["title"] . "'><input type='hidden' name='price' value='" . $row["price"] . "'><input type='submit' value='Add to Cart'></form></td>";
                     $i++;
 				        }
 				        if ($i % 4 != 0) {
