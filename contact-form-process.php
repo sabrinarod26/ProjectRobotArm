@@ -69,7 +69,7 @@ if (isset($_POST['Email'])) {
 
     <!-- INCLUDE YOUR SUCCESS MESSAGE BELOW -->
 
-    Thanks for getting in touch. We'll get back to you soon.
+    Thanks for getting in touch. We'll get back to you soon. To navigate back to the home page, use the back button on your browser.
 
 <?php
 }
