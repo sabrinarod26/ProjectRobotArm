@@ -222,13 +222,13 @@
 			</tr>
 			<?php
 				    require 'dbcon.php';
-                    
+
                     if(isset($_SESSION['cart']) && !empty($_SESSION['cart'])){
 					$cart = $_SESSION['cart'];
 					require 'dbcon.php';
 					$total_price = 0;
 					foreach($cart as $book_id => $book){
-						$sql = "SELECT * FROM tblbooks WHERE id=$book_id";
+						$sql = "SELECT * FROM tblbooks WHERE id=$bookid";
 						$result = $conn->query($sql);
 						if ($result->num_rows > 0) {
 							$row = $result->fetch_assoc();
