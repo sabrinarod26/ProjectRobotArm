@@ -246,26 +246,31 @@
 <body>
 <main>
 		<h2>Your Cart</h2>
-		<table>
-			<tr>
-				<th>Title</th>
-				<th>Price</th>
-			</tr>
-			<?php
+		
+        <?php
 require 'dbcon.php';
 
-if(isset($_POST['bookid']) && isset($_POST['title']) && isset($_POST['price'])){
-    $bookid = $_POST['bookid'];
-    $title = $_POST['title'];
-    $price = $_POST['price'];
-    
-    $sql = "INSERT INTO cart (bookid, title, price) VALUES ('$bookid', '$title', '$price')";
-    
+if(isset($_GET['delete_id'])){
+    $delete_id = $_GET['delete_id'];
+    $sql = "DELETE FROM cart WHERE id = $delete_id";
     if ($conn->query($sql) === TRUE) {
-        echo "Item added to cart successfully.";
+        echo "Item removed from cart successfully";
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error removing item from cart: " . $conn->error;
     }
+}
+
+$sql = "SELECT * FROM cart";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    echo "<table><tr><th>Title</th><th>Price</th><th>Action</th></tr>";
+    while($row = $result->fetch_assoc()) {
+        echo "<tr><td>" . $row["title"] . "</td><td>$" . $row["price"] . "</td><td><a href='cart.php?delete_id=" . $row["id"] . "'>Remove</a></td></tr>";
+    }
+    echo "</table>";
+} else {
+    echo "Your cart is empty";
 }
 
 $conn->close();
