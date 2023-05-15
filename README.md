@@ -3,7 +3,7 @@ Robot Arm Bookstore 101: How to Have a Better Book-shopping Experience
 Robot Arm Bookstore is a web application for an online bookstore that allows you to browse books, place orders, and manage your account all from virtually anywhere
 
 
-You can access the home page here.
+You can access the home page here: https://swe.umbc.edu/~srodrig1/bootstrap-5.3.0-alpha3-examples/carousel/index.html
 
 
 Step 1: Access the site using any browser of choice (Chrome, Safari, Firefox)
