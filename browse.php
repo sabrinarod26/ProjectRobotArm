@@ -214,34 +214,35 @@
 </header>
 <body>
 			<main>
-				<?php
-				    require 'dbcon.php';
+      <?php
+    require 'dbcon.php';
 
-				    $sql = "SELECT * FROM tblbooks";
-				    $result = $conn->query($sql);
+    $sql = "SELECT * FROM tblbooks";
+    $result = $conn->query($sql);
 
-				    if ($result->num_rows > 0) {
-				        echo "<table><tr>";
-				        $i = 0;
-				        while($row = $result->fetch_assoc()) {
-				            if ($i % 4 == 0 && $i != 0) {
-				                echo "</tr><tr>";
-				            }
-                    echo "<td><img src='" . $row["image"] . "' width='150'><br><strong>" . $row["title"] . "</strong><br>" . $row["author"] . "<br>" . $row["price"] ."</td>";
-                    echo "<br><td><form method='POST' action='cart.php'><input type='hidden' name='bookid' value='" . $row["bookid"] . "'><input type='hidden' name='title' value='" . $row["title"] . "'><input type='hidden' name='price' value='" . $row["price"] . "'><input type='submit' value='Add to Cart'></form></td>";
-                    $i++;
-				        }
-				        if ($i % 4 != 0) {
-				            echo str_repeat("<td></td>", 4 - ($i % 4));
-				            echo "</tr>";
-				        }
-				        echo "</table>";
-				    } else {
-				        echo "0 results";
-				    }
+    if ($result->num_rows > 0) {
+        echo "<table><tr>";
+        $i = 0;
+        while($row = $result->fetch_assoc()) {
+            if ($i % 4 == 0 && $i != 0) {
+                echo "</tr><tr>";
+            }
+            echo "<td><img src='" . $row["image"] . "' width='150'><br><strong>" . $row["title"] . "</strong><br>" . $row["author"] . "<br>" . $row["price"] ."</td>";
+            echo "<td><form method='POST' action='cart.php'><input type='hidden' name='bookid' value='" . $row["bookid"] . "'><input type='hidden' name='title' value='" . $row["title"] . "'><input type='hidden' name='price' value='" . $row["price"] . "'><input type='submit' value='Add to Cart'></form></td>";
+            $i++;
+        }
+        if ($i % 4 != 0) {
+            echo str_repeat("<td></td>", 4 - ($i % 4));
+            echo "</tr>";
+        }
+        echo "</table>";
+    } else {
+        echo "0 results";
+    }
 
-				    $conn->close();
-				?>
+    $conn->close();
+?>
+
 			</main>
 			
 
