@@ -7,13 +7,13 @@ if (!$conn) die("Connection failed: " . mysqli_connect_error());
 
 // Get the last form ID from the database
 $stmt = $conn->prepare("SELECT formid FROM tblcontact ORDER BY formid DESC LIMIT 1");
-if (!$stmt) die("Prepare failed: " . $conn->error);
 $stmt->execute();
-$lastFormID = $stmt->fetchColumn();
+$stmt->bind_result($lastFormID);
+$stmt->fetch();
+$stmt->close();
 
 // Calculate the new form ID
 $newFormID = $lastFormID + 1;
-
 // Prepare SQL statement
 $stmt = $conn->prepare("INSERT INTO tblcontact (formid, name, email, reason, message) VALUES (?, ?, ?, ?, ?)");
 if (!$stmt) die("Prepare failed: " . $conn->error);
