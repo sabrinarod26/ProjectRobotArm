@@ -6,7 +6,7 @@ require 'dbcon.php';
 if (!$conn) die("Connection failed: " . mysqli_connect_error());
 
 // Get the last form ID from the database
-$stmt = $conn->prepare("SELECT formid FROM tblcontact ORDER BY id DESC LIMIT 1");
+$stmt = $conn->prepare("SELECT formid FROM tblcontact ORDER BY formid DESC LIMIT 1");
 if (!$stmt) die("Prepare failed: " . $conn->error);
 $stmt->execute();
 $lastFormID = $stmt->fetchColumn();
