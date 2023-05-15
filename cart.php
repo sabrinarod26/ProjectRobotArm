@@ -296,14 +296,15 @@ if (isset($_POST['bookid'])) {
 }
 
 // display the contents of the cart
-$sql = "SELECT * FROM cart";
+$sql = "SELECT cart.*, tblbooks.image FROM cart INNER JOIN tblbooks ON cart.bookid = tblbooks.bookid";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
     echo "<table>";
-    echo "<tr><th>Book Title</th><th>Price</th><th>Quantity</th><th>Remove Book</th></tr>";
+    echo "<tr><th>Book Cover</th><th>Book Title</th><th>Price</th><th>Quantity</th><th>Remove Book</th></tr>";
     while($row = $result->fetch_assoc()) {
         echo "<tr>";
+        echo "<td><img src='" . $row["image"] . "' width='150'></td>";
         echo "<td>" . $row['title'] . "</td>";
         echo "<td>" . $row['price'] . "</td>";
         echo "<td>" . $row['quantity'] . "</td>";
@@ -325,6 +326,7 @@ if (isset($_POST['delete_item'])) {
 
 $conn->close();
 ?>
+
 
 
 
