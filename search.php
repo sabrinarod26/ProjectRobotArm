@@ -172,6 +172,9 @@
           <li class="nav-item">
             <a class="nav-link" href="contactus.html">Contact Us</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="cart.php">Cart</a>
+          </li>
         </ul>
         <form action="search.php" role="search" method="GET">
           <input type="text" name="search" placeholder="Search Books" aria-label="Search">

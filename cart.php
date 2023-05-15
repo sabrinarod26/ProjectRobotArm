@@ -229,10 +229,13 @@
             <a class="nav-link" href="index.html">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="browse.php">Browse Books</a>
+            <a class="nav-link"  href="browse.php">Browse Books</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="contactus.html">Contact Us</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="cart.php">Cart</a>
           </li>
         </ul>
         <form action="search.php" method="GET">
