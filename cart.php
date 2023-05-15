@@ -311,7 +311,7 @@ if ($result->num_rows > 0) {
     }
     echo "</table>";
 } else {
-    echo "Your cart is empty";
+    echo "Your cart is empty<br>";
 }
 
 // delete a book from the cart if the Delete button is clicked
