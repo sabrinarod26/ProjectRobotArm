@@ -298,14 +298,14 @@ $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
     echo "<table>";
-    echo "<tr><th>Book ID</th><th>Title</th><th>Price</th><th>Quantity</th><th>Action</th></tr>";
+    echo "<tr><th>Book ID</th><th>Title</th><th>Price</th><th>Quantity</th><th></th></tr>";
     while($row = $result->fetch_assoc()) {
         echo "<tr>";
-        echo "<td>" . $row['bookid'] . "</td>";
         echo "<td>" . $row['title'] . "</td>";
         echo "<td>" . $row['price'] . "</td>";
         echo "<td>" . $row['quantity'] . "</td>";
-        echo "<td><form method='POST' action='cart.php'><input type='hidden' name='cart_id' value='" . $row["id"] . "'><input type='submit' name='delete_item' value='Delete'></form></td>";
+        echo "<td><form method='POST' action='cart.php'><input type='hidden' name='cart_id' value='" . $row["id"] . "'>
+        <input type='submit' name='delete_item' value='Delete'></form></td>";
         echo "</tr>";
     }
     echo "</table>";
