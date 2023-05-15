@@ -14,7 +14,7 @@ $newFormID = $lastFormID + 1;
 $stmt = $conn->prepare("INSERT INTO tblcontact (formid, name, email, reason, message) VALUES (:formid, :name, :email, :reason, :message)");
 
 // Bind form data to prepared statement parameters
-$stmt->bindParam(':formid', $formid);
+$stmt->bindParam(':formid', $newFormID);
 $stmt->bindParam(':name', $_POST['Name']);
 $stmt->bindParam(':email', $_POST['Email']);
 $stmt->bindParam(':reason', $_POST['contactreason']);
