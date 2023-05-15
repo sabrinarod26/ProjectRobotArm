@@ -2,8 +2,14 @@
 <?php
 require 'dbcon.php';
 
-// Generate a new formid
-$formid = uniqid();
+// Get the current counter value from the database
+$stmt = $conn->prepare("SELECT counter FROM tblcounter WHERE id = 1");
+$stmt->execute();
+$row = $stmt->fetch(PDO::FETCH_ASSOC);
+$counter = $row['counter'];
+
+// Generate a new formid based on the current counter value
+$formid = $counter + 1;
 
 // Prepare SQL statement
 $stmt = $conn->prepare("INSERT INTO tblcontact (formid, name, email, reason, message) VALUES (:formid, :name, :email, :reason, :message)");
